@@ -1,26 +1,55 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #f24e1e;
+  --secondary: #ff9090;
+  --terciary: #a1a3ab;
+  --accent: #008bd9;
+  --priority-moderate: #f21e1e;
+  --priority-high: #ff4d4d;
+  --priority-low: #05a301;
+  --task-in-progress: #0225ff;
+  --task-completed: #05a301;
+  --task-pending: #f21e1e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-terciary: var(--terciary);
+  --color-accent: var(--accent);
+  --color-priority-moderate: var(--priority-moderate);
+  --color-priority-high: var(--priority-high);
+  --color-priority-low: var(--priority-low);
+  --color-task-in-progress: var(--task-in-progress);
+  --color-task-completed: var(--task-completed);
+  --color-task-pending: var(--task-pending);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --primary: #f24e1e;
+    --secondary: #ff9090;
+    --terciary: #a1a3ab;
+    --accent: #008bd9;
+    --priority-moderate: #f21e1e;
+    --priority-high: #ff4d4d;
+    --priority-low: #05a301;
+    --task-in-progress: #0225ff;
+    --task-completed: #05a301;
+    --task-no-started: #f21e1e;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
 }
