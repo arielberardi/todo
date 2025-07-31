@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Running Pre-Commit"
+
+pnpm run lint
+pnpm run format
+pnpm run test:unit
+
+exit 0
