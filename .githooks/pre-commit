@@ -2,7 +2,11 @@
 
 echo "Running Pre-Commit"
 
-pnpm run lint
+if !pnpm run lint; then
+    echo "Lint failed"
+    exit 1
+end
+
 pnpm run format
 pnpm run test:unit
 
