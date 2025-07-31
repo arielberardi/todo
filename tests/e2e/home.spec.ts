@@ -9,5 +9,5 @@ test("has title", async ({ page }) => {
 
 test("say Home word", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByText("Home")).toBeVisible();
+  await expect(page.getByText("Hello")).toBeVisible();
 });
