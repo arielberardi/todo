@@ -19,8 +19,8 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Get last tag
         id: lasttag
@@ -30,8 +30,8 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: |
-          changelog=git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s'
-          echo "${{ changelog }}" >> $GITHUB_OUTPUT
+          changelog=$(git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s')
+          echo "$changelog" >> $GITHUB_OUTPUT
 
       - name: Update CHANGELOG.md
         run: |
