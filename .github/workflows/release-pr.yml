@@ -30,8 +30,14 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: |
+<<<<<<< HEAD
           changelog=git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s'
           echo "${{ changelog }}" >> $GITHUB_OUTPUT
+=======
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s' >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+>>>>>>> e352bfc (feat: Update workflow for automatic releases)
 
       - name: Update CHANGELOG.md
         run: |
