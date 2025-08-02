@@ -1,4 +1,4 @@
-name: Create Release PR
+name: Release code
 
 on:
   workflow_dispatch:
@@ -15,14 +15,14 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Needed to get all history
+          fetch-depth: 0
 
       - name: Set up Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Get last tag
+      - name: Get Last Release tag
         id: lasttag
         run: |
           echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
@@ -31,7 +31,9 @@ jobs:
         id: changelog
         run: |
           changelog=$(git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s')
-          echo "changelog=$changelog" >> $GITHUB_OUTPUT
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo $changelog >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Update CHANGELOG.md
         run: |
@@ -44,17 +46,21 @@ jobs:
       - name: Commit changelog
         run: |
           git add CHANGELOG.md
-          git commit -m "chore: update changelog for ${{ github.event.inputs.version }}"
-          git push origin develop
+          git commit -m "docs: Update changelog to release ${{ github.event.inputs.version }}"
+          git push origin
 
-      - name: Create PR
-        uses: peter-evans/create-pull-request@v6
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: main
-          head: develop
-          title: "Release ${{ github.event.inputs.version }}"
-          body: |
-            This release PR includes the following changes:
+          tag_name: ${{ github.event.inputs.version }}
+          name: Release ${{ github.event.inputs.version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git tag ${{ github.event.inputs.version }}
+          git push origin ${{ github.event.inputs.version }}
 
-            ${{ steps.changelog.outputs.changelog }}
+      - name: Deploy to Render
+        run: |
+          curl ${{ secrets.RENDER_DEPLOY_HOOK }}
