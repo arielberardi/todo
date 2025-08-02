@@ -1,0 +1,26 @@
+name: Tag Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from CHANGELOG
+        id: changelog
+        run: |
+          version=$(grep '^## ' CHANGELOG.md | head -n 1 | cut -d ' ' -f 2)
+          echo "version=$version" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        run: |
+          git tag ${{ steps.changelog.outputs.version }}
+          git push origin ${{ steps.changelog.outputs.version }}
