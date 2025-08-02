@@ -30,15 +30,8 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: |
-<<<<<<< HEAD
           changelog=git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s'
           echo "${{ changelog }}" >> $GITHUB_OUTPUT
-=======
-          changelog="$(git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s')"
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          echo "$changelog" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
->>>>>>> 5adb7b6 (Update release-pr.yml (#8))
 
       - name: Update CHANGELOG.md
         run: |
