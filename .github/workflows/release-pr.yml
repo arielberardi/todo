@@ -31,7 +31,7 @@ jobs:
         id: changelog
         run: |
           changelog=$(git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s')
-          echo "$changelog" >> $GITHUB_OUTPUT
+          echo "changelog=$changelog" >> $GITHUB_OUTPUT
 
       - name: Update CHANGELOG.md
         run: |
