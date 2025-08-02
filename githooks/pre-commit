@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -euo pipefail
+
+echo "🔍 Running pre-commit checks..."
+
+# Run linter silently
+echo "📏 Linting code..."
+if ! pnpm lint > /dev/null 2>&1; then
+  echo "❌ Lint failed"
+  exit 1
+fi
+
+# Run format check silently
+echo "🎨 Checking code format..."
+if ! pnpm format > /dev/null 2>&1; then
+  echo "❌ Format check failed"
+  exit 1
+fi
+
+# Run unit tests silently
+echo "🧪 Running unit tests..."
+if ! pnpm test:unit > /dev/null 2>&1; then
+  echo "❌ Unit tests failed"
+  exit 1
+fi
+
+echo "✅ All checks passed. Proceeding with commit."
