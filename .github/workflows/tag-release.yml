@@ -20,7 +20,15 @@ jobs:
           version=$(grep '^## ' CHANGELOG.md | head -n 1 | cut -d ' ' -f 2)
           echo "version=$version" >> $GITHUB_OUTPUT
 
-      - name: Create tag
+      - name: Set up git user
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
           git tag ${{ steps.changelog.outputs.version }}
           git push origin ${{ steps.changelog.outputs.version }}
