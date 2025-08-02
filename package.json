@@ -7,7 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --no-cache",
     "format": "prettier src/ tests/ --write",
     "test:unit": "jest",
     "test:e2e": "playwright test ./tests"
@@ -37,6 +37,7 @@
     "eslint-plugin-testing-library": "^7.6.3",
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5",
+    "jiti": "^2.5.1",
     "prettier": "3.6.2",
     "prisma": "^6.13.0",
     "tailwindcss": "^4",
