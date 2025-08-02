@@ -36,7 +36,6 @@ jobs:
           else
             changelog=$(git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s')
           fi
-          changelog=$(git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s')
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
           echo $changelog >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -56,17 +55,12 @@ jobs:
           git push origin
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.version }}
           name: Release ${{ github.event.inputs.version }}
           body: ${{ steps.changelog.outputs.changelog }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git tag ${{ github.event.inputs.version }}
-          git push origin ${{ github.event.inputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to Render
-        run: |
-          curl ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
