@@ -30,8 +30,16 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: |
+<<<<<<< HEAD
           changelog=git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s'
           echo "${{ changelog }}" >> $GITHUB_OUTPUT
+=======
+          {
+            echo "changelog<<EOF"
+            git log ${{ steps.lasttag.outputs.tag }}..HEAD --pretty=format:'- %s'
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+>>>>>>> 795ff25 (Update create-pr workflow (#7))
 
       - name: Update CHANGELOG.md
         run: |
